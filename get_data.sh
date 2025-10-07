@@ -1,6 +1,5 @@
-cd data;
-mkdir geo;
-cd geo;
+mkdir data;cd data;
+mkdir geo;cd geo;
 
 wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE222nnn/GSE222147/suppl/GSE222147_lcm_wbgs_bsseq_smoothed_coverage_filtered_geo.rda.gz;
 wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE142nnn/GSE142241/suppl/GSE142241_RAW.tar;
