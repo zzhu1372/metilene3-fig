@@ -5,5 +5,6 @@ Codes to generate figures.
 ```
 git clone https://github.com/zzhu1372/metilene3-fig.git
 cd metilene3-fig
+chmod +x round3.awk
 bash get_data.sh
 ```
