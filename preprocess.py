@@ -30,7 +30,14 @@ new_names = list(df.index)
 random.shuffle(new_names)
 df['ID'] = ['S'+str(i) for i in new_names]
 df['ID'] = df['ID'] +'='+ df['Sample name']
-df = df.sort_values('ID').dropna(subset=['bedfile'])
+df = df.sort_values('ID')
+
+os.system('cd ./data/geo/GSE186458/;\
+bedtools unionbedg -i '+(df['bedfile']+' ').sum()+\
+'-header -names '+(df['ID']+' ').sum()+\
+'-filler .| '+os.getcwd()+'/round3.awk |cut -f 1,3- > '+os.getcwd()+'/data/GSE186458_celltypes.input.tsv')
+
+df = df.loc[df['ID'].str.contains('Blood')]
 
 os.system('cd ./data/geo/GSE186458/;\
 bedtools unionbedg -i '+(df['bedfile']+' ').sum()+\

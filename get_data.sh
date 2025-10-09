@@ -1,6 +1,10 @@
 mkdir data;cd data;
 mkdir geo;cd geo;
 
+wget https://data.broadinstitute.org/gsea-msigdb/msigdb/release/2023.2.Hs/h.all.v2023.2.Hs.symbols.gmt
+wget https://ftp.ensembl.org/pub/release-111/gtf/homo_sapiens/Homo_sapiens.GRCh38.111.gtf.gz
+gzip -d Homo_sapiens.GRCh38.111.gtf.gz 
+
 wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE222nnn/GSE222147/suppl/GSE222147_lcm_wbgs_bsseq_smoothed_coverage_filtered_geo.rda.gz;
 wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE142nnn/GSE142241/suppl/GSE142241_RAW.tar;
 wget https://ftp.ncbi.nlm.nih.gov/geo/series/GSE121nnn/GSE121721/suppl/GSE121721_RAW.tar;
@@ -33,9 +37,13 @@ cd ..;
 
 for i in `zcat GSE186458_series_matrix.txt.gz |grep "Sample_supplementary_file_1"`; do echo $i >> GSE186458.list; done
 mkdir GSE186458; cd GSE186458;
-for i in `grep Blood ../GSE186458.list |cut -f2 -d '"'`; do wget $i; done
+for i in `grep beta ../GSE186458.list |cut -f2 -d '"'`; do wget $i; done
 wgbstools init_genome hg19 -f
 for i in *.beta; do wgbstools view $i|awk '$5>=10 && $5 <=150' OFS="\t" $F | perl -ane '$F[5]=$F[3]/$F[4]; print "$F[0]\t$F[1]\t$F[2]\t$F[5]\n"' | grep -v chrX | grep -v chrY | grep -v chrM > $i.bedGraph; done
 cd ..;
 
 cd ../..; python ./preprocess.py
+rm data/geo/*/*.bedGraph
+rm data/geo/*/*.beta
+rm data/geo/*/*.bw
+rm data/geo/*/*.bigWig
